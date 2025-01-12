@@ -3,10 +3,13 @@ def main():
         file_contents = f.read()
         word_count = get_word_count(file_contents)
         character_counts = get_character_counts(file_contents)
-        print(f"The number of words in this text: {word_count}")
-        print("===============================================")     
-        print("The character count of this text:")
-        print(character_counts)
+        edited_character_counts = remove_symbols(character_counts)
+        print(edited_character_counts)
+        list_of_dicts = get_list_of_dicts(edited_character_counts)
+        print(list_of_dicts)
+        sorted_list = sort_list(list_of_dicts)
+        print(sorted_list)
+
         
 def get_word_count(file_contents):
     word_list = file_contents.split()
@@ -40,6 +43,21 @@ def get_character_counts(file_contents):
     
     return character_counts
 
-    
+def remove_symbols(character_counts):
+    edited_character_counts = dict()
+    for key in character_counts:
+        if key.isalpha():
+            edited_character_counts.update({key: character_counts[key]})
+    return edited_character_counts
 
+def get_list_of_dicts(edited_character_counts):
+    list_of_dicts = list(edited_character_counts.items())
+    return list_of_dicts
+
+from operator import itemgetter
+
+def sort_list(list_of_dicts):
+    list_of_dicts.sort(reverse=True, key=itemgetter(1))
+    return list_of_dicts
+    
 main()
