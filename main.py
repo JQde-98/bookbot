@@ -1,18 +1,32 @@
+import sys
 from operator import itemgetter
 
 def main():
-    with open("books/frankenstein.txt") as f:
-        file_contents = f.read()
-        word_count = get_word_count(file_contents)
-        character_counts = get_character_counts(file_contents)
-        edited_character_counts = remove_symbols(character_counts)
-        list_of_dicts = get_list_of_dicts(edited_character_counts)
-        sorted_list = sort_list(list_of_dicts)
-        print(sorted_list)
-        print(f"======Begin book report of {f}")
-        for i in sorted_list:
-            print(f"The letter {i[0]} appears {i[1]} times.")
+    if len(sys.argv) < 2:
+        print("Usage: python your_program.py <file_name>")
+        return
 
+    file_name = sys.argv[1]  # Get the file name from the command-line arguments  
+    try:
+        with open("books/frankenstein.txt") as f:
+            file_contents = f.read()
+            word_count = get_word_count(file_contents)
+            character_counts = get_character_counts(file_contents)
+            edited_character_counts = remove_symbols(character_counts)
+            list_of_dicts = get_list_of_dicts(edited_character_counts)
+            sorted_list = sort_list(list_of_dicts)
+
+            print(f"======Begin book report of {file_name}======")
+            print(" ")
+            print(f"This book contains {word_count} words overall")
+            print(" ")
+            for i in sorted_list:
+                print(f"The letter '{i[0]}' appears {i[1]} times.")
+            print(" ")
+            print("======End of book report======")
+
+    except FileNotFoundError:
+        print(f"Error: The file '{file_name}' was not found.")
         
 def get_word_count(file_contents):
     word_list = file_contents.split()
